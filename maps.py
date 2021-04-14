@@ -57,10 +57,11 @@ shift_map = {
 
 # modifier keys
 mod_keys = {
-  '1' : 'Left_ctrl',
-  '2' : 'left_shift',
-  '4' : 'left_alt',
-  '8' : 'left_meta',
+  '00' : '',
+  '01' : 'left_ctrl',
+  '02' : 'left_shift',
+  '04' : 'left_alt',
+  '08' : 'left_meta',
   '10' : 'right_ctrl',
   '20' : 'right_shift',
   '40' : 'right_alt',
@@ -71,21 +72,21 @@ mod_keys = {
 
 base_keys = {
   # meta
-  '0' : 'none',
-  '1' : 'error_ovf',
+  '00' : '', # none
+  '01' : 'error_ovf',
   # letters
-  '4' : 'a',
-  '5' : 'b',
-  '6' : 'c',
-  '7' : 'd',
-  '8' : 'e',
-  '9' : 'f',
-  'a' : 'g',
-  'b' : 'h',
-  'c' : 'i',
-  'd' : 'j',
-  'e' : 'k',
-  'f' : 'l',
+  '04' : 'a',
+  '05' : 'b',
+  '06' : 'c',
+  '07' : 'd',
+  '08' : 'e',
+  '09' : 'f',
+  '0a' : 'g',
+  '0b' : 'h',
+  '0c' : 'i',
+  '0d' : 'j',
+  '0e' : 'k',
+  '0f' : 'l',
   '10' : 'm',
   '11' : 'n',
   '12' : 'o',
@@ -112,11 +113,11 @@ base_keys = {
   '26' : '9',
   '27' : '0',
   # misc
-  '28' : 'enter',
+  '28' : '\n', #enter
   '29' : 'esc',
   '2a' : 'backspace',
   '2b' : 'tab',
-  '2c' : 'space',
+  '2c' : ' ', #space
   '2d' : '-',
   '2e' : '=',
   '2f' : '[',
