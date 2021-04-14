@@ -1,5 +1,6 @@
 # https://regex101.com/r/PQ9g6g/5
 
+import traceback
 import os.path
 import sys
 import re
@@ -32,7 +33,7 @@ run_options_output_input = 2
 def parse_args():
   global run_state
   global cl_args
-  cl_args_regex = '^(?P<HELP>-*h(?:elp)?)(?:.*)|(?:(?: |^)(?P<OPT>(?: ?-*[ovcht])+)(?:(?: |^)(?P<OUT>[\w\-.]+|[\'\"][\w\-. ]+[\'\"]))?)?(?: |^)(?P<IN>[\w\-.]+|[\'\"][\w\-. ]+[\'\"])?$'
+  cl_args_regex = '^(?P<HELP>-*h(?:elp)?) (?:.*)|(?:(?: |^)(?P<OPT>(?: ?-*[ovcht])+)(?:(?: |^)(?P<OUT>[\w\-.]+|[\'\"][\w\-. ]+[\'\"]))?)?(?: |^)(?P<IN>[\w\-.]+|[\'\"][\w\-. ]+[\'\"])?$'
   cl_args = ' '.join(sys.argv[1:])
   cl_args_matches = re.search(cl_args_regex, cl_args)
   cl_args = {
@@ -79,11 +80,63 @@ def parse_args():
 
 
 
-def main():
-  if not parse_args():
-    print(help_info)
+def confirm_inputs(opt, in_file, out_file):
+  _ = input(f'\nPlease confirm the following targets:\n  Options: {opt}\n  Input file: {in_file}\n  Output file: {out_file}\n\n  (Y/n)> ')
+  if _ == 'Y':
+    return True
+  elif _ == 'y':
+    if input('\nDid you mean "Y"?\n  (y/n) > ').lower() == 'y':
+      return True
+  return False
+
+
+
+def parse_hex(line):
+  hex_regex = '^(?P<MOD>[0-9a-f]{2})00(?P<KEY>[0-9a-f]{2}).*$'
+  hex_matches = re.search(hex_regex, line.lower())
+  return hex_matches.group('MOD'), hex_matches.group('KEY')
   
-  print(cl_args, run_state)
+  
+  
+def translate_hex(t, mod_key_pair):
+  mod, key = mod_key_pair
+  
+  if mod in mod_keys:
+    mod = mod_keys[mod]
+  else:
+    return ''
+  if key in base_keys:
+    key = base_keys[key]
+  else:
+    return ''
+  if (mod == 'left_shift' or mod == 'right_shift') and key in shift_map:
+    key = shift_map[key]
+ 
+  if t:
+    return f'({mod}, {key})'
+  return key
+
+
+
+def main():
+  if not parse_args() or (cl_args['c'] and not confirm_inputs(cl_args['OPT'], cl_args['IN'], cl_args['OUT'])):
+    print(help_info)
+  else:
+    try:
+      with open(cl_args['IN'], 'r') as in_file:
+        if run_state == 'run_input_only' or run_state == 'run_options_input':
+          for line in in_file:
+            print(translate_hex(cl_args['t'], parse_hex(line)), end="")
+        else: #run_options_output_input
+          with open(cl_args['OUT'], 'r') as out_file:
+            _ = (translate_hex(cl_args['t'], parse_hex(line)))
+            if cl_args['v']:
+              print(_)
+              out_file.write('f{_}\n')
+    except Exception as e:
+      print(f"\nSomething went wrong. Please check the target files.\n  Options: {cl_args['OPT']}\n  Input file: {cl_args['IN']}\n  Output file: {cl_args['OUT']}\n")
+      traceback.print_exc()
+  #print(cl_args, run_state)
 
 
 
