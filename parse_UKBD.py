@@ -122,17 +122,19 @@ def main():
   if not parse_args() or (cl_args['c'] and not confirm_inputs(cl_args['OPT'], cl_args['IN'], cl_args['OUT'])):
     print(help_info)
   else:
+    print('')
     try:
       with open(cl_args['IN'], 'r') as in_file:
         if run_state == 'run_input_only' or run_state == 'run_options_input':
           for line in in_file:
             print(translate_hex(cl_args['t'], parse_hex(line)), end="")
         else: #run_options_output_input
-          with open(cl_args['OUT'], 'r') as out_file:
-            _ = (translate_hex(cl_args['t'], parse_hex(line)))
-            if cl_args['v']:
-              print(_)
-              out_file.write('f{_}\n')
+          with open(cl_args['OUT'], 'w') as out_file:
+            for line in in_file:
+              _ = (translate_hex(cl_args['t'], parse_hex(line)))
+              if cl_args['v']:
+                print(_, end="")
+              out_file.write(f'{_}')
     except Exception as e:
       print(f"\nSomething went wrong. Please check the target files.\n  Options: {cl_args['OPT']}\n  Input file: {cl_args['IN']}\n  Output file: {cl_args['OUT']}\n")
       traceback.print_exc()
