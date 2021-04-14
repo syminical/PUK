@@ -137,7 +137,7 @@ def main():
               out_file.write(f'{_}')
     except Exception as e:
       print(f"\nSomething went wrong. Please check the target files.\n  Options: {cl_args['OPT']}\n  Input file: {cl_args['IN']}\n  Output file: {cl_args['OUT']}\n")
-      traceback.print_exc()
+      #traceback.print_exc()
   #print(cl_args, run_state)
 
 
