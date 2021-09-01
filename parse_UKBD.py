@@ -1,4 +1,6 @@
-# https://regex101.com/r/PQ9g6g/5
+#!/user/bin/python3
+
+# https://regex101.com/r/PQ9g6g/6
 
 import traceback
 import os.path
@@ -33,7 +35,7 @@ run_options_output_input = 2
 def parse_args():
   global run_state
   global cl_args
-  cl_args_regex = '^(?P<HELP>-*h(?:elp)?) (?:.*)|(?:(?: |^)(?P<OPT>(?: ?-*[ovcht])+)(?:(?: |^)(?P<OUT>[\w\-.]+|[\'\"][\w\-. ]+[\'\"]))?)?(?: |^)(?P<IN>[\w\-.]+|[\'\"][\w\-. ]+[\'\"])?$'
+  cl_args_regex = '^(?P<HELP>-{0,2}(?:[ovt]*h[ovt]*(?:$| .*)|help.*))|(?:(?: |^)(?P<OPT>(?: ?-{0,2}[ovht])+)(?:(?: |^)(?P<OUT>[\w\-.]+|[\'\"][\w\-.:/\\ ]+[\'\"]))?)?(?: |^)(?P<IN>[\w\-.:/\\ ]+|[\'\"][\w\-.:/\\ ]+[\'\"])?$'
   cl_args = ' '.join(sys.argv[1:])
   cl_args_matches = re.search(cl_args_regex, cl_args)
   cl_args = {
