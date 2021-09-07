@@ -9,7 +9,7 @@ import re
 from maps import shift_map, mod_keys, base_keys
 
 help_info = '''
-  Usage: parse_UKBD [OPTIONS] [INPUT FILE]
+  Usage: PUK.py [OPTIONS] [INPUT FILE]
     -o fileName.txt   Output file
     -v                Verbose  (Default if -o is not present.)
     -c                Confirm targets before file I/O.
