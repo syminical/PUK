@@ -15,7 +15,7 @@ Usage: PUK.py [OPTIONS] [INPUT FILE]
    The commands below **extract** the **data**, **remove** **blank** and **0x0** **lines**, and **store** the **results** in `capdata.txt`.
    - `$ tshark -r henpeck.pcap -T fields -e usb.capdata | grep -E "." | grep -v '0000000000000000' > capdata.txt`
 
-**2.** Use the `parse_UKBD.py` script on the file created in step 1 to decode the hex data.
+**2.** Use the `PUK.py` script on the file created in step 1 to decode the hex data.
 
 ## Examples
     1. $ python PUK.py capdata.txt
